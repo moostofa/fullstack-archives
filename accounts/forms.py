@@ -1,18 +1,10 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.forms import Form
+from django.forms.fields import CharField
+from django.forms.forms import Form
 from django.forms.widgets import PasswordInput, TextInput
 
-from .models import User
 
-
-class RegistrationForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = ["username", "password1", "password2"]
-        widgets = {
-            "username": TextInput(attrs={"placeholder": "Username"}),
-        }
-
-    def __init__(self, *args, **kwargs) -> None:
-        super(RegistrationForm, self).__init__(*args, **kwargs)
-        self.fields["password1"].widget = PasswordInput(attrs={"placeholder": "Password"})
-        self.fields["password2"].widget = PasswordInput(attrs={"placeholder": "Confirm password"})
+class RegistrationForm(Form):
+    username = CharField(label = "", max_length=56, widget=TextInput(attrs={"placeholder": "Username"}))
+    password = CharField(label = "", max_length=20, widget=PasswordInput(attrs={"placeholder": "Password"}))
+    confirm_password = CharField(label = "", max_length=20, widget=PasswordInput(attrs={"placeholder": "Confirm password"}))

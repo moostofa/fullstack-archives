@@ -1,13 +1,38 @@
+from django.contrib.auth import login
+from django.db import IntegrityError
+from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.http.response import HttpResponse
+from django.urls import reverse
 
 from .forms import RegistrationForm
+from .models import User
 
-# Create your views here.
+
+# Register the user. Login and logout are handled through class-based views in .urls
 def register(request):
     if request.method == "GET":
         return render(request, "registration/register.html", {
             "form": RegistrationForm()
         })
     else:
-        return HttpResponse("Register the user")
+        # get form data and validate passwords & username
+        credentials = RegistrationForm(request.POST)
+        if not credentials.is_valid():
+            return HttpResponse("Invalid credentials - form is invalid")
+
+        username = credentials.cleaned_data["username"]
+        password = credentials.cleaned_data["password"]
+        confirm_password = credentials.cleaned_data["confirm_password"]
+
+        if password != confirm_password:
+            return HttpResponse("Invalid credentials - passwords do not match. TODO: Validate this on client-side,")
+        
+        # try to create a new user; an IntegrityError is raised if the username is already taken
+        try:
+            user = User.objects.create_user(username = username, password = password)
+            user.save()
+        except IntegrityError:
+            return HttpResponse("Username is already taken - TODO: check this on client side")
+        
+        login(request, user)
+        return HttpResponseRedirect(reverse("index"))
