@@ -4,14 +4,15 @@ from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .forms import RegistrationForm
+from .forms import RegistrationForm, LoginForm
 from .models import User
 
 
-# Register the user. Login and logout are handled through class-based views in .urls
-def register(request):
+# Register the user
+def register_view(request):
     if request.method == "GET":
-        return render(request, "registration/register.html", {
+        return render(request, "accounts/authenticate.html", {
+            "action": "Register",
             "form": RegistrationForm()
         })
     else:
@@ -36,3 +37,12 @@ def register(request):
         
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
+
+
+# Log the user in
+def login_view(request):
+    if request.method == "GET":
+        return render(request, "accounts/authenticate.html", {
+            "action": "Login",
+            "form": LoginForm()
+        })
