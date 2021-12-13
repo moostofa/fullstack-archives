@@ -34,18 +34,18 @@
                   </a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link" href="#">
+                  <a class="nav-link" href="{% url 'Logout' %}">
                       <button class="btn btn-md btn-outline-light" type="button">Logout</button>
                   </a>
               </li>
             {% else %}
               <li class="nav-item">
-                  <a class="nav-link" href="#">
+                  <a class="nav-link" href="{% url 'Login' %}">
                       <button class="btn btn-md btn-outline-light" type="button">Login</button>
                   </a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link" href="#">
+                  <a class="nav-link" href="{% url 'Register' %}">
                       <button class="btn btn-md btn-outline-light" type="button">Register</button>
                   </a>
               </li>

@@ -4,9 +4,13 @@
 
 {% block body%}
     <h1>{{ action }}</h1>
-    <form action="{% url action %}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="{{ action }}" class="btn btn-primary">
-    </form>
+    {% if user.is_authenticated %}
+        <h4>You are already loggined in. <a href="{% url 'Logout' %}">Log out</a>?</h4>
+    {% else %}
+        <form action="{% url action %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="{{ action }}" class="btn btn-primary">
+        </form>
+    {% endif %}
 {% endblock %}
