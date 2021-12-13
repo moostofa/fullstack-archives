@@ -1,22 +1,20 @@
 from django.shortcuts import render
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from .models import Book, Anime, Manga
-
 from .seralizers import ItemListSerializer
 
+from archives.settings import GOOGLE_BOOKS_API_KEY
+
 def index(request):
-    user = request.user.username if request.user.is_authenticated else "Not logged in"
-    return HttpResponse(f"Hello world! User: {user}")
+    return HttpResponse(GOOGLE_BOOKS_API_KEY)
 
 
 @api_view(["GET"])
 def books(request):
-    books = Book.objects.all()
-    serializer = ItemListSerializer(books, many=True)
-    return Response(serializer.data)
+    return JsonResponse({"ApiKey": GOOGLE_BOOKS_API_KEY})
 
 
 @api_view(["GET"])
