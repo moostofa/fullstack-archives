@@ -1,9 +1,10 @@
 from django.urls import path
-from . import views
+
+from .views import index, books, anime, manga
 
 urlpatterns = [
-    path("", views.index, name="index"),
-    path("books", views.books, name="books"),
-    path("anime", views.anime, name="anime"),
-    path("manga", views.manga, name="manga")
+    path("", index, name="index"),
+    path("books", books, name="books"),
+    path("anime", anime, name="anime"),
+    path("manga", manga, name="manga")
 ]
