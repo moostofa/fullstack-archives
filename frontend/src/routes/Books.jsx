@@ -1,14 +1,38 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
-const Books = () => {
+const getFields = bookObject => {
+    return {
+        "id": bookObject["id"],
+        "title": bookObject["volumeInfo"]["title"],
+        "author": bookObject["volumeInfo"]["authors"][0],
+        "description": bookObject["volumeInfo"]["description"],
+        "pages": bookObject["volumeInfo"]["pageCount"],
+        //"imgSrc": bookObject["volumeInfo"]["imageLinks"]["smallThumbnail"],
+        //"genres": bookObject["volumeInfo"]["categories"]
+    }
+}
+
+const Books = props => {
+    const [state, setstate] = useState([])
+
+    useEffect(() => {
+        fetch(`https://www.googleapis.com/books/v1/volumes?q=${props.q}`)
+        .then(response => response.json())
+        .then(json => {
+            const books = json.items
+
+            let results = []
+            books.forEach(book => {
+                results.push(getFields(book))
+            })
+            setstate(results)
+        })
+    }, [props.q])
+
     return (
-        <div>
-            <h1>THIS IS THE BOOKS PAGE</h1>
-            <form>
-                <input type="text" placeholder='Book title' />
-                <input type="submit" value="Search" />
-            </form>
-        </div>
+        <div> {
+            JSON.stringify(state[0])
+        }</div>
     )
 }
 
