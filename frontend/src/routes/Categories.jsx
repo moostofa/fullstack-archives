@@ -21,7 +21,6 @@ const Categories = () => {
         )
     }, [category])
 
-
     return (
         <div> {state} </div>
     )
