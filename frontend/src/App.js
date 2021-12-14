@@ -7,11 +7,15 @@ import { Link, Outlet } from "react-router-dom"
 const App = () => {
 	const items = ["Books", "Anime", "Manga"]
 	return (
-		<div>{
-			items.map(item => (
-				<HomePage name={item} />
-			))}
-		<Link to="/books">Books</Link>
+		<div>
+			<ul>{
+				items.map((item, index) => (
+					<li key={index}>
+						<HomePage name={item} />
+					</li>
+				))}
+			</ul>
+		<Link to={"/books"}>Books</Link>
 		</div>
 	)
 }

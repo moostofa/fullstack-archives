@@ -29,17 +29,27 @@ const Search = () => {
     }, [])
 
     return (
+        <div>{
+            state["items"].map(element => (
+                <li key={element.id}>{element.title}</li>
+            ))
+        }
+        </div>
+        /*
         <div>
             <ul>{
                 state.items.map((element, index) => (
-                    <li key={index}>{
+                    <li key={element.id}>
+                    <ul>{
                         Object.entries(element).forEach(([key, value]) => {
-                            <p>{key}: {value}</p>
+                            <li key={key}>{value}</li>
                         })}
+                    </ul>
                     </li>
                 ))}
             </ul>
         </div>
+        */
     )
 }
 

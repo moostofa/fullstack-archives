@@ -3,7 +3,10 @@ import React from 'react'
 const Books = () => {
     return (
         <div>
-            <h1>Hello books route</h1>
+            <form>
+                <input type="text" placeholder='Book title' />
+                <input type="submit" value="Search" />
+            </form>
         </div>
     )
 }
