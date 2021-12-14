@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import Search from '../components/Search'
+import Searchie from '../components/Searchie'
 
-const Books = () => {
+const Booksies = () => {
     const [state, setstate] = useState({
         "q": "",
         "results": ""
@@ -11,7 +11,7 @@ const Books = () => {
         event.preventDefault()
         setstate({
             "q": event.target.q.value,
-            "results": <Search />
+            "results": <Searchie />
         })
     }
 
@@ -30,4 +30,4 @@ const Books = () => {
     )
 }
 
-export default Books
+export default Booksies

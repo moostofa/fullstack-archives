@@ -16,7 +16,6 @@ const App = () => {
 			</ul>
 		<Link to={"books"}>Books</Link>
 		<Link to={"manga"}>MANGA</Link>
-		<Link to={"manga/search"}>Manga search</Link>
 		<Outlet />
 		</div>
 	)

@@ -1,14 +1,29 @@
+import React, { useState, useEffect } from 'react'
 import { useParams } from "react-router-dom"
+import Anime from './Anime'
+import Books from './Books'
+import Manga from './Manga'
 
-import React from 'react'
+const CategoryOptions = {
+    "books": <Books />,
+    "anime": <Anime />,
+    "manga": <Manga />
+}
 
 const Categories = () => {
-    const params = useParams()
+    const [state, setstate] = useState("")
+    const category = useParams().category
+
+    useEffect(() => {
+        setstate(
+            Object.keys(CategoryOptions).includes(category) ? CategoryOptions[category]
+            : <h1>The param {category} is invalid.</h1>
+        )
+    }, [category])
+
+
     return (
-        <div>
-            <h1>This is the manga search page</h1>
-            <h3>Params: {params.category}</h3>
-        </div>
+        <div> {state} </div>
     )
 }
 

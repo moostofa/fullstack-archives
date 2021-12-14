@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-const Search = (props) => {
+const Searchie = (props) => {
     const [state, setstate] = useState({"items": []})
 
     const searchBooks = () => {
@@ -53,4 +53,4 @@ const Search = (props) => {
     )
 }
 
-export default Search
+export default Searchie

@@ -7,7 +7,7 @@ import {
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import Books from "./routes/Books";
+import Booksies from "./routes/Booksies";
 import Manga from "./routes/Manga";
 import Categories from "./routes/Categories";
 
@@ -15,9 +15,9 @@ ReactDOM.render(
 	<Router>
 		<Routes>
 			<Route exact path="/" element={<App />} />
-			<Route path="books" element={<Books />} />
-			<Route exact path=":category" element={<Manga />} />
-			<Route path=":category/search" element={<Categories />} />
+			<Route path="books" element={<Booksies />} />
+			<Route exact path=":category" element={<Categories />} />
+			<Route path=":category/search" element="" />
 		</Routes>
 	</Router>,
 	document.getElementById('root')
