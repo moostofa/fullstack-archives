@@ -8,7 +8,6 @@ const Categories = () => {
     const [state, setstate] = useState("")
     const category = useParams().category
 
-    // check if the url param is valid - if so, render a search form for that component (component can be book, anime, or manga)
     useEffect(() => {
         setstate(
             CategoryOptions.includes(category)

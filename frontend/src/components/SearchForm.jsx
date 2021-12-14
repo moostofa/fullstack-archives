@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
+import Anime from '../routes/Anime'
+import Books from '../routes/Books'
+import Manga from '../routes/Manga'
 
 const searchSubjects = {
-    Books: (q) => `Search for a book. q = ${q}`,
-    Anime: (q) => `Search for an anime. q = ${q}`,
-    Manga: (q) => `Search for a manga. q = ${q}`
+    Books: (q) => <Books q={q} />,
+    Anime: (q) => <Anime q={q} />,
+    Manga: (q) => <Manga q={q} />
 }
 
 const SearchForm = (props) => {
