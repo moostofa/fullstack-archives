@@ -1,7 +1,6 @@
 import React from 'react'
 import './App.css';
 import HomePage from './components/HomePage';
-import Search from './components/Search';
 import { Link, Outlet } from "react-router-dom"
 
 const App = () => {
@@ -15,7 +14,10 @@ const App = () => {
 					</li>
 				))}
 			</ul>
-		<Link to={"/books"}>Books</Link>
+		<Link to={"books"}>Books</Link>
+		<Link to={"manga"}>MANGA</Link>
+		<Link to={"manga/search"}>Manga search</Link>
+		<Outlet />
 		</div>
 	)
 }
