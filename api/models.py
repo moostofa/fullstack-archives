@@ -1,22 +1,18 @@
-from django.contrib.auth.models import AbstractUser
-from django.db.models import CASCADE, ForeignKey, Model
-from django.db.models.fields import PositiveIntegerField, TextField
+from django.db.models import CASCADE, ForeignKey, Model, JSONField
 
+from accounts.models import User
 
-class User(AbstractUser):
-    pass
-
+default = dict({"item_ids": ["hello", "world"]})
 
 class ItemModel(Model):
     user = ForeignKey(
         User,
         on_delete=CASCADE
     )
-    finished = TextField(default="[]")
-    unfinished = TextField(default="[]")
-    watchlist = TextField(default="[]")
-    dropped = TextField(default="[]")
-    rating = PositiveIntegerField()
+    finished = JSONField(default=default)
+    unfinished = JSONField(default=default)
+    watchlist = JSONField(default=default)
+    dropped = JSONField(default=default)
 
     class Meta:
         abstract = True
