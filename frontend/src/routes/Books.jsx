@@ -20,6 +20,7 @@ const Books = props => {
         .then(response => response.json())
         .then(json => {
             const books = json.items
+            console.log(books)
 
             let results = []
             books.forEach(book => {
@@ -31,8 +32,16 @@ const Books = props => {
 
     return (
         <div> {
-            JSON.stringify(state[0])
-        }</div>
+            state.map((item, index) => (
+                <ul key={index}> {
+                    Object.entries(item).map(([key, value]) => (
+                        <li key={`${index}-${key}`}>
+                            {`${key}: ${value}`}
+                        </li>
+                    ))}
+                </ul>
+            ))}
+        </div>
     )
 }
 

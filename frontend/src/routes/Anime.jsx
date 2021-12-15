@@ -15,10 +15,11 @@ const Anime = props => {
     const [state, setstate] = useState([])
 
     useEffect(() => {
-        fetch(`https://api.aniapi.com/v1/anime?title=${props.q}`)
+        fetch(`https://api.aniapi.com/v1/anime?title=${props.q}&per_page=20`)
         .then(response => response.json())
         .then(json => {
             const anime = json.data.documents
+            console.log(anime)
 
             let results = []
             anime.forEach(anime => {
@@ -30,8 +31,15 @@ const Anime = props => {
 
     return (
         <div> {
-            JSON.stringify(state[0])
-        }
+            state.map((item, index) => (
+                <ul key={index}> {
+                    Object.entries(item).map(([key, value]) => (
+                        <li key={`${index}-${key}`}>
+                            {`${key}: ${value}`}
+                        </li>
+                    ))}
+                </ul>
+            ))}
         </div>
     )
 }
