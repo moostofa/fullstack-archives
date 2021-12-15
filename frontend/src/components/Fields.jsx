@@ -41,6 +41,12 @@ const componentFields = {
     }
 }
 
+const urls = {
+    books: "",
+    anime: "",
+    manga: ""
+}
+
 const Fields = () => {
     return (
         <div>
