@@ -21,8 +21,8 @@ const Anime = props => {
             const anime = json.data.documents
 
             let results = []
-            anime.forEach(element => {
-                results.push(getFields(element))
+            anime.forEach(anime => {
+                results.push(getFields(anime))
             })
             setstate(results)
         })
