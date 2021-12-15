@@ -6,24 +6,11 @@ const getFields = mangaObject => {
         "title": mangaObject.attributes.title.en,
         "description": mangaObject.attributes.description.en,
         "status": mangaObject.attributes.status,
-        "imgSrc": (async () => await getMangaCoverImg(mangaObject.id, mangaObject.relationships))(),
+        "coverArtId": mangaObject.relationships.filter(relation => relation["type"] === "cover_art")[0].id,
         "tags": mangaObject.attributes.tags.map(tag => (
             tag.attributes.name.en
         ))
     }
-}
-
-const getMangaCoverImg = async (mangaId, relationshipsArray) => {
-    let coverImgId = ""
-    relationshipsArray.forEach(relationship => {
-        if (relationship.type === "cover_art")
-            coverImgId = relationship.id
-    })
-
-    let response = await fetch(`https://api.mangadex.org/cover/${coverImgId}`);
-    let json = await response.json();
-    console.log(json.data.attributes.fileName)
-    return json.data.attributes.fileName
 }
 
 const Manga = props => {
@@ -37,7 +24,8 @@ const Manga = props => {
             console.log(manga)
 
             let results = []
-            manga.forEach(element => {
+            manga.forEach((element, index) => {
+                console.log(`relationships length: ${element.relationships.length}, element number: ${index + 1}`)
                 results.push(getFields(element))
             })
             setstate(results)
@@ -46,8 +34,15 @@ const Manga = props => {
 
     return (
         <div> {
-            JSON.stringify(state[0])
-        }
+            state.map((item, index) => (
+                <ul key={index}> {
+                    Object.entries(item).map(([key, value]) => (
+                        <li key={`${index}-${key}`}>
+                            {`${key}: ${value}`}
+                        </li>
+                    ))}
+                </ul>
+            ))}
         </div>
     )
 }
