@@ -2,88 +2,78 @@ import React, { useState, useEffect } from 'react'
 
 const FIELDS = {
     id: {
-        books: "",
-        anime: "",
-        manga: ""
+        Books: obj => "",
+        Anime: obj => "",
+        Manga: obj => ""
     },
     title: {
-        books: "",
-        anime: "",
-        manga: ""
+        Books: obj => "",
+        Anime: obj => "",
+        Manga: obj => ""
     },
     description: {
-        books: "",
-        anime: "",
-        manga: ""
+        Books: obj => "",
+        Anime: obj => "",
+        Manga: obj => ""
     },
     imgSrc: {
-        books: "",
-        anime: "",
-        manga: ""
+        Books: obj => "",
+        Anime: obj => "",
+        Manga: obj => ""
     },
     genres: {
-        books: "",
-        anime: "",
-        manga: ""
+        Books: obj => "",
+        Anime: obj => "",
+        Manga: obj => ""
     },
     author: {
-        books: ""
+        Books: obj => ""
     },
     pages: {
-        books: "",
+        Books: obj => "",
     },
     episodes: {
-        anime: ""
+        Anime: obj => ""
     },
     status: {
-        anime: "",
-        manga: ""
+        Anime: obj => "",
+        Manga: obj => ""
     }
 }
 
 const limit = 20
-const urls = {
-    Books: q => `https://www.googleapis.com/books/v1/volumes?q=${q}&maxResults=${limit}`,
-    Anime: q => `https://api.aniapi.com/v1/anime?title=${q}&per_page=${limit}`,
-    Manga: q => `https://api.mangadex.org/manga?title=${q}&limit=${limit}`
-}
-
-const getSearchData = {
-    Books: res => res.items,
-    Anime: res => res.data.documents,
-    Manga: res => res.data
-}
-
+const commonFields = ["id", "title", "description", "imgSrc", "genres"]
 const SUBJECTS = {
     Books: {
-        url: q => `https://www.googleapis.com/books/v1/volumes?q=${q}&maxResults=${limit}`,
+        url: q => `https://www.googleapis.com/Books/v1/volumes?q=${q}&maxResults=${limit}`,
         getSearchData: res => res.items,
-        fields: () => ["id", "title", "description", "imgSrc", "genres", "author", "pages"]
+        fields: () => [...commonFields, "author", "pages"]
     },
     Anime: {
-        url: q => `https://api.aniapi.com/v1/anime?title=${q}&per_page=${limit}`,
+        url: q => `https://api.aniapi.com/v1/Anime?title=${q}&per_page=${limit}`,
         getSearchData: res => res.data.documents,
-        fields: () => ["id", "title", "description", "imgSrc", "genres", "episodes", "status"]
+        fields: () => [...commonFields, "episodes", "status"]
     },
     Manga: {
-        url: q => `https://api.mangadex.org/manga?title=${q}&limit=${limit}`,
+        url: q => `https://api.Mangadex.org/Manga?title=${q}&limit=${limit}`,
         getSearchData: res => res.data,
-        fields: () => ["id", "title", "description", "imgSrc", "genres", "status"]
+        fields: () => [...commonFields, "status"]
     }
 }
 
 const Search = props => {
-    const [state, setstate] = useState("")
+    const [state, setstate] = useState(obj => "")
 
     useEffect(() => {
         performSearch()
     })
 
     const performSearch = async () => {
-        const response = await fetch(urls[props.subject](props.q))
+        const response = await fetch(SUBJECTS[props.subject].url(props.q))
         const json = await response.json()
-        const data = getSearchData[props.subject](json)
+        const data = SUBJECTS[props.subject].getSearchData(json)
         console.log(data)
+        console.log(SUBJECTS[props.subject].fields())
     }
 
     return (
