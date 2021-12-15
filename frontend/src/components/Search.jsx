@@ -54,6 +54,24 @@ const getSearchData = {
     Manga: res => res.data
 }
 
+const SUBJECTS = {
+    Books: {
+        url: q => `https://www.googleapis.com/books/v1/volumes?q=${q}&maxResults=${limit}`,
+        getSearchData: res => res.items,
+        fields: () => ["id", "title", "description", "imgSrc", "genres", "author", "pages"]
+    },
+    Anime: {
+        url: q => `https://api.aniapi.com/v1/anime?title=${q}&per_page=${limit}`,
+        getSearchData: res => res.data.documents,
+        fields: () => ["id", "title", "description", "imgSrc", "genres", "episodes", "status"]
+    },
+    Manga: {
+        url: q => `https://api.mangadex.org/manga?title=${q}&limit=${limit}`,
+        getSearchData: res => res.data,
+        fields: () => ["id", "title", "description", "imgSrc", "genres", "status"]
+    }
+}
+
 const Search = props => {
     const [state, setstate] = useState("")
 
