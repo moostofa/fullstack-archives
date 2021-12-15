@@ -1,13 +1,5 @@
 import React, { useState } from 'react'
-import Anime from '../routes/Anime'
-import Books from '../routes/Books'
-import Manga from '../routes/Manga'
-
-const searchSubjects = {
-    Books: (q) => <Books q={q} />,
-    Anime: (q) => <Anime q={q} />,
-    Manga: (q) => <Manga q={q} />
-}
+import Search from './Search'
 
 const SearchForm = (props) => {
     const [state, setstate] = useState({
@@ -20,7 +12,7 @@ const SearchForm = (props) => {
         const q = event.target.q.value
         setstate({
             "q": `Search results for "${q}"`,
-            "results": searchSubjects[props.subject](q)
+            "results":  <Search subject={props.subject} q={q} />
         })
     }
 
@@ -35,9 +27,7 @@ const SearchForm = (props) => {
             </div>
             <div>
                 <h1> {state["q"]} </h1>
-                <div>
-                    {state["results"]}
-                </div>
+                <div> {state["results"]} </div>
             </div>
         </div>
     )
