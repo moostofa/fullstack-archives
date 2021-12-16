@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Search from '../routes/Search'
+import { TextField, Button } from '@mui/material'
 
 /*
     Renders a search form for a book, anime, or manga.
@@ -37,8 +38,18 @@ const SearchForm = (props) => {
             <div>
                 <h1>{props.subject}</h1>
                 <form onSubmit={performSearch}>
-                    <input autoFocus name='q' type="text" placeholder={`${props.subject} title`} />
-                    <input type="submit" value="Search" />
+                    <TextField 
+                        size='small'
+                        autoFocus
+                        name='q'
+                        placeholder={`${props.subject} title`}
+                    />
+                    <Button 
+                        type='submit' 
+                        variant='contained'
+                    >
+                        Search
+                    </Button>
                 </form>
             </div>
             <div>

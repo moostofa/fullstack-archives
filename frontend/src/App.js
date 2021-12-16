@@ -1,6 +1,7 @@
 import React from 'react'
+import Button from '@mui/material/Button'
 import './App.css';
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom';
 
 const App = () => {
 	const items = ["Books", "Anime", "Manga"]
@@ -8,7 +9,14 @@ const App = () => {
 		<div> {
 			items.map(item => (
 				<div key={item}>
-					<Link key={item} to={`${item.toLocaleLowerCase()}`}>{item}</Link>
+					<Button 
+						key={item}
+						LinkComponent={Link}
+						to={item.toLocaleLowerCase()}
+						variant='contained'
+					>
+						{item}
+					</Button>
 				</div>
 			))}
 		</div>
