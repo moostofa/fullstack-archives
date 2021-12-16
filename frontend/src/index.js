@@ -7,14 +7,14 @@ import {
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import Categories from "./routes/Categories";
+import Subjects from "./routes/Subjects";
 
 ReactDOM.render(
 	<Router>
 		<Routes>
 			<Route exact path="/" element={<App />} />
-			<Route exact path=":category" element={<Categories />} />
-			<Route path=":category/search" element="" />
+			<Route exact path=":subject" element={<Subjects />} />
+			<Route path=":subject/search" element="" />
 		</Routes>
 	</Router>,
 	document.getElementById('root')
