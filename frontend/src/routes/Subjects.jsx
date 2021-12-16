@@ -4,6 +4,10 @@ import SearchForm from '../components/SearchForm'
 
 const subjectOptions = ["books", "anime", "manga"]
 
+/*
+    Returns a search form for a book, anime or manga. 
+    If any another param is passed in the url, it cannot be searched for, and feedback is provided to the user.
+*/
 const Subjects = () => {
     const [state, setstate] = useState("")
     const subject = useParams().subject

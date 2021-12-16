@@ -1,3 +1,12 @@
+/*
+    A an object containing functions used to retrieve fields of interest for certain search items.
+    This is used in the Search component.
+
+    The object fields are described in each of the object's respective API's documentation.
+
+    params:
+    - obj is the book, anime, or manga object retrieved from a fetch() request.
+*/
 export const FIELDS = {
     id: {
         Books: obj => obj.id,
