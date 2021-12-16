@@ -12,11 +12,11 @@ import { SUBJECTS } from '../components/SubjectMethods'
     - props.subject = the book, anime, or manga API being queried
 */
 const Search = props => {
-    const [state, setstate] = useState("")
+    const [state, setstate] = useState()
 
     useEffect(() => {
         performSearch()
-    })
+    }, [])
 
     const performSearch = async () => {
         // fetch the data and access the actual array of results from the response
@@ -40,11 +40,11 @@ const Search = props => {
             })
             results.push(itemDetails)
         })
-        console.log(results)
+        setstate(results)
     }
 
     return (
-        <div> Completed search. Look at console </div>
+        <div> {JSON.stringify(state)} </div>
     )
 }
 
