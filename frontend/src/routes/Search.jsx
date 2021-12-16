@@ -5,7 +5,11 @@ import { SUBJECTS } from '../components/SubjectMethods'
 /*
     Perform a search based on the query paramter(s) passed into the component, or url.
 
-    Component is called in ../components/SearchForm, when the search form is submitted
+    Component is called in ../components/SearchForm, when the search form is submitted.
+
+    props:
+    - props.q = the title being searched for
+    - props.subject = the book, anime, or manga API being queried
 */
 const Search = props => {
     const [state, setstate] = useState("")
