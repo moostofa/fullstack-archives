@@ -17,22 +17,12 @@ const FIELDS = {
         Manga: obj => `${obj.attributes.description.en.split(" ").slice(0, 20).join(" ")}...`
     },
     imgSrc: {
-        Books: obj => {
-            let src
-            try { src = obj.volumeInfo.imageLinks.thumbnail } 
-            catch(error) {}
-            return src
-        },
+        Books: obj => obj.volumeInfo.imageLinks.thumbnail,
         Anime: obj => obj.cover_image,
         Manga: obj => `NOT imgSrc - imgSrc ID (need to perform 1 more step) ${obj.relationships.filter(relation => relation["type"] === "cover_art")[0].id}`
     },
     genres: {
-        Books: obj => {
-            let category
-            try { category = obj.volumeInfo.categories[0] }
-            catch(error) {}
-            return category
-        },
+        Books: obj => obj.volumeInfo.categories[0],
         Anime: obj => obj.genres.slice(0, 5),
         Manga: obj => obj.attributes.tags.map(tag => tag.attributes.name.en).slice(0, 5)
     },
@@ -89,7 +79,11 @@ const Search = props => {
         data.forEach(item => {
             const itemDetails = {}
             itemFields.forEach(field => {
-                itemDetails[field] = FIELDS[field][props.subject](item)
+                try {
+                    itemDetails[field] = FIELDS[field][props.subject](item)
+                } catch(error) {
+                    itemDetails[field] = ""
+                }
             })
             results.push(itemDetails)
         })
@@ -98,7 +92,7 @@ const Search = props => {
 
     return (
         <div>
-            Completed search
+            Completed search. Look at console
         </div>
     )
 }
