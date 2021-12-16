@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Search from './Search'
+import Search from '../routes/Search'
 
 const SearchForm = (props) => {
     const [state, setstate] = useState({

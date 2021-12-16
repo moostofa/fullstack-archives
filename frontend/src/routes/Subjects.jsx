@@ -14,7 +14,7 @@ const Subjects = () => {
             ? <SearchForm 
                 subject = {subject.charAt(0).toLocaleUpperCase() + subject.slice(1)} 
               />
-            : <h1>A "{subject}" item cannot be searched.</h1>
+            : <h1>A "{subject}" item cannot be searched for.</h1>
         )
     }, [subject])
 
