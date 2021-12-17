@@ -26,7 +26,7 @@ export const FIELDS = {
     imgSrc: {
         Books: obj => obj.volumeInfo.imageLinks.thumbnail,
         Anime: obj => obj.cover_image,
-        Manga: obj => `NOT imgSrc - imgSrc ID (need to perform 1 more step) ${obj.relationships.filter(relation => relation["type"] === "cover_art")[0].id}`
+        Manga: obj => obj.relationships.filter(relation => relation["type"] === "cover_art")[0].id
     },
     genres: {
         Books: obj => obj.volumeInfo.categories[0],
