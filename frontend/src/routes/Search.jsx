@@ -45,23 +45,22 @@ const Search = props => {
     }
 
     return (
-        <Grid container gap={1}> {
+        <Grid container alignItems="center" justifyContent="center" gap={1}> {
             state.map((item, index) => (
-                <Paper elevation={8} sx={{backgroundColor: 'blanchedalmond'}}>
-                    <Grid key={index} container>
+                <Paper key={index} elevation={8} sx={{backgroundColor: 'blanchedalmond', width: "0.9"}}>
+                    <Grid container>
                         <Grid item xs={4}>
                             <img src={item.imgSrc} alt={item.title}/>
                         </Grid>
                         <Grid item xs={4}>
-                            {JSON.stringify(item)}
+                            {item.title}
                         </Grid>
                         <Grid item xs={4}>
                             <Button variant='contained'>Add to list</Button>
                         </Grid> 
                     </Grid>
                 </Paper>
-            ))
-        }
+            ))}
         </Grid>
     )
 }

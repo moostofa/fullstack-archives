@@ -21,10 +21,7 @@ const Subjects = () => {
             : <h1>A "{subject}" item cannot be searched for.</h1>
         )
     }, [subject])
-
-    return (
-        <div> {state} </div>
-    )
+    return state
 }
 
 export default Subjects
