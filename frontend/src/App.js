@@ -1,25 +1,23 @@
 import React from 'react'
-import Button from '@mui/material/Button'
+import { Button, Tabs, Tab } from '@mui/material'
 import './App.css';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 
 const App = () => {
 	const items = ["Books", "Anime", "Manga"]
 	return (
-		<div> {
+		<Tabs>
+			<Tab label="Home" LinkComponent={Link} to="/" /> {
 			items.map(item => (
-				<div key={item}>
-					<Button 
-						key={item}
-						LinkComponent={Link}
-						to={item.toLocaleLowerCase()}
-						variant='contained'
-					>
-						{item}
-					</Button>
-				</div>
+				<Tab 
+					key={item} 
+					label={item} 
+					LinkComponent={Link} 
+					to={item.toLocaleLowerCase()}
+				/>
 			))}
-		</div>
+			<Outlet />
+		</Tabs>
 	)
 }
 

@@ -12,9 +12,11 @@ import Subjects from "./routes/Subjects";
 ReactDOM.render(
 	<Router>
 		<Routes>
-			<Route exact path="/" element={<App />} />
-			<Route exact path=":subject" element={<Subjects />} />
-			<Route path=":subject/search" element="" />
+			<Route exact path="/" element={<App />}>
+				<Route path=":subject" element={<Subjects />}>
+					<Route path="search" element="" />
+				</Route>
+			</Route>
 		</Routes>
 	</Router>,
 	document.getElementById('root')
