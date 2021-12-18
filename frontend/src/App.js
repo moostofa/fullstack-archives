@@ -1,28 +1,25 @@
-import React, { useState } from 'react'
-import { Tabs, Tab } from '@mui/material'
-import './App.css';
-import { Link, Outlet } from 'react-router-dom';
+import React from 'react';
+
+import {
+	HashRouter as Router,
+	Routes,
+	Route
+} from "react-router-dom"
+
+import Subjects from "./routes/Subjects";
+import Navbar from './components/NavBar';
 
 const App = () => {
-	const [state, setstate] = useState(0)
-	const handleChange = (event, newValue) => {
-		setstate(newValue)
-	}
-	
-	const items = ["Books", "Anime", "Manga"]
 	return (
-		<Tabs value={state} onChange={handleChange}>
-			<Tab label="Home" LinkComponent={Link} to="/" /> {
-			items.map((item, index) => (
-				<Tab 
-					key={item} 
-					label={item}
-					LinkComponent={Link}
-					to={item.toLocaleLowerCase()}
-				/>
-			))}
-			<Outlet />
-		</Tabs>
+		<Router>
+			<Navbar />
+			<Routes>
+				<Route exact path="/" element={"Homepage"} />
+				<Route path=":subject" element={<Subjects />}>
+					<Route path="search" element="" />
+				</Route>
+			</Routes>
+		</Router>
 	)
 }
 

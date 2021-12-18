@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { Button, TextField } from '@mui/material'
+
 import Search from '../routes/Search'
-import { TextField, Button } from '@mui/material'
 
 /*
     Renders a search form for a book, anime, or manga.
@@ -12,10 +13,14 @@ import { TextField, Button } from '@mui/material'
     - props.subject: "Book", "Anime", or "Manga"
 */
 const SearchForm = (props) => {
-    const [state, setstate] = useState({
-        "q": "",
-        "results": ""
-    })
+    const [state, setstate] = useState({})
+
+    useEffect(() => {
+        setstate({
+            q: "",
+            results: ""
+        })
+    }, [props.subject])
 
     // perform a search on form submission
     const performSearch = event => {
@@ -43,6 +48,7 @@ const SearchForm = (props) => {
                         autoFocus
                         name='q'
                         placeholder={`${props.subject} title`}
+                        value={state.q}
                     />
                     <Button 
                         type='submit' 
