@@ -25,10 +25,9 @@ const Search = props => {
         const response = await fetch(SUBJECTS[props.subject].url(props.q))
         const json = await response.json()
         const data = SUBJECTS[props.subject].getSearchData(json)
-        console.log(data)
 
         const results = []
-        const itemFields = SUBJECTS[props.subject].fields()
+        const itemFields = SUBJECTS[props.subject].fields
 
         // data is the array of results returned by the API
         data.forEach(item => {
@@ -48,7 +47,7 @@ const Search = props => {
     return (
         <Grid container alignItems="center" justifyContent="center" gap={1}> {
             state.map((item, index) => (
-                <Paper key={index} elevation={8} sx={{backgroundColor: 'blanchedalmond', width: "0.9"}}>
+                <Paper key={index} elevation={8} sx={{backgroundColor: SUBJECTS[props.subject].color, width: "0.9"}}>
                     <Grid container>
                         <Grid item xs={4}>
                             <img src={item.imgSrc} alt={item.title}/>

@@ -3,6 +3,13 @@ import { Button, TextField } from '@mui/material'
 
 import Search from '../routes/Search'
 
+const initialState = {
+    q: "",
+    helperText: "",
+    searchTerm: "",
+    results: ""
+}
+
 /*
     Renders a search form for a book, anime, or manga.
     On form submit, calls the Search component to get and display search results.
@@ -13,31 +20,23 @@ import Search from '../routes/Search'
     - props.subject: "Book", "Anime", or "Manga"
 */
 const SearchForm = (props) => {
-    const [state, setstate] = useState({
-        q: "",
-        feedback: "",
-        results: ""
-    })
+    const [state, setstate] = useState(initialState)
 
-    // empty the search bar & results whenever the search subject changes (via url, or navbar)
+    // reset state whenever the search subject changes (via url, or navbar)
     useEffect(() => {
-        setstate({
-            q: "",
-            feedback: "",
-            results: ""
-        })
+        setstate(initialState)
     }, [props.subject])
 
     // perform a search on form submission
     const performSearch = event => {
         event.preventDefault()
-        const q = event.target.q.value
+        const q = state.q
 
-        // check if user entered a search term
+        // check if user entered a valid search term
         if (q.trim() === "") {
             setstate({
                 ...state,
-                feedback: "Please enter a title to search for."
+                helperText: "Please enter a title to search for."
             })
             return
         }
@@ -45,11 +44,13 @@ const SearchForm = (props) => {
         // fetch & display results
         setstate({
             ...state,
-            feedback: `Search results for "${q}"`,
+            helperText: "",
+            searchTerm: `Search results for "${q}"`,
             results: <Search subject={props.subject} q={q} />
         })
     }
 
+    // store the search term in state whenever it changes
     const qChange = (event) => {
         setstate({
             ...state,
@@ -64,6 +65,7 @@ const SearchForm = (props) => {
                 <form onSubmit={performSearch}>
                     <TextField 
                         autoFocus
+                        helperText={state.helperText}
                         label={`${props.subject} title`}
                         name='q'
                         onChange={qChange}
@@ -79,7 +81,7 @@ const SearchForm = (props) => {
                 </form>
             </div>
             <div>
-                <h1> {state.feedback} </h1>
+                <h1> {state.searchTerm} </h1>
                 <div> {state.results} </div>
             </div>
         </div>
