@@ -17,7 +17,7 @@ const Navbar = () => {
 					key={item} 
 					label={item}
 					LinkComponent={Link}
-					to={item.toLocaleLowerCase()}
+					to={item}
 				/>
 			))}
 			<Outlet />

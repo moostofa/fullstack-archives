@@ -13,11 +13,17 @@ import Search from '../routes/Search'
     - props.subject: "Book", "Anime", or "Manga"
 */
 const SearchForm = (props) => {
-    const [state, setstate] = useState({})
+    const [state, setstate] = useState({
+        q: "",
+        feedback: "",
+        results: ""
+    })
 
+    // empty the search bar & results whenever the search subject changes (via url, or navbar)
     useEffect(() => {
         setstate({
             q: "",
+            feedback: "",
             results: ""
         })
     }, [props.subject])
@@ -27,27 +33,41 @@ const SearchForm = (props) => {
         event.preventDefault()
         const q = event.target.q.value
 
+        // check if user entered a search term
         if (q.trim() === "") {
             setstate({
-                q: "Please enter a title to search for."
+                ...state,
+                feedback: "Please enter a title to search for."
             })
             return
         }
+
+        // fetch & display results
         setstate({
-            "q": `Search results for "${q}"`,
-            "results":  <Search subject={props.subject} q={q} />
+            ...state,
+            feedback: `Search results for "${q}"`,
+            results: <Search subject={props.subject} q={q} />
         })
     }
+
+    const qChange = (event) => {
+        setstate({
+            ...state,
+            q: event.target.value
+        })
+    }
+
     return (
         <div>
             <div>
                 <h1>{props.subject}</h1>
                 <form onSubmit={performSearch}>
                     <TextField 
-                        size='small'
                         autoFocus
+                        label={`${props.subject} title`}
                         name='q'
-                        placeholder={`${props.subject} title`}
+                        onChange={qChange}
+                        size='small'
                         value={state.q}
                     />
                     <Button 
@@ -59,8 +79,8 @@ const SearchForm = (props) => {
                 </form>
             </div>
             <div>
-                <h1> {state["q"]} </h1>
-                <div> {state["results"]} </div>
+                <h1> {state.feedback} </h1>
+                <div> {state.results} </div>
             </div>
         </div>
     )
