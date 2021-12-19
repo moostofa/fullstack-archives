@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button, TextField } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
 import Search from '../routes/Search'
 
@@ -21,6 +22,7 @@ const initialState = {
 */
 const SearchForm = (props) => {
     const [state, setstate] = useState(initialState)
+    const redirect = useNavigate()
 
     // reset state whenever the search subject changes (via url, or navbar)
     useEffect(() => {
@@ -48,6 +50,7 @@ const SearchForm = (props) => {
             searchTerm: `Search results for "${q}"`,
             results: <Search subject={props.subject} q={q} />
         })
+        redirect(`search?q=${q}`)
     }
 
     // store the search term in state whenever it changes

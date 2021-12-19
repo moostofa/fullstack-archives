@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from "react-router-dom"
+import { Outlet, useParams } from "react-router-dom"
 
 import SearchForm from '../components/SearchForm'
 
@@ -22,7 +22,12 @@ const Subjects = () => {
             : <h1>A "{subject}" item cannot be searched for.</h1>
         )
     }, [subject])
-    return state
+    return (
+        <div>
+            {state}
+            <Outlet />
+        </div>
+    )
 }
 
 export default Subjects
