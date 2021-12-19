@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Button, TextField } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 import Search from '../routes/Search'
 
 const initialState = {
-    q: "",
     helperText: "",
-    searchTerm: "",
+    searchDetails: "",
     results: ""
 }
 
@@ -22,7 +21,9 @@ const initialState = {
 */
 const SearchForm = (props) => {
     const [state, setstate] = useState(initialState)
-    const redirect = useNavigate()
+    const [searchParams, setSearchParams] = useSearchParams({
+        title: ""
+    })
 
     // reset state whenever the search subject changes (via url, or navbar)
     useEffect(() => {
@@ -32,10 +33,10 @@ const SearchForm = (props) => {
     // perform a search on form submission
     const performSearch = event => {
         event.preventDefault()
-        const q = state.q
+        const title = searchParams.get("title")
 
         // check if user entered a valid search term
-        if (q.trim() === "") {
+        if (title.trim() === "") {
             setstate({
                 ...state,
                 helperText: "Please enter a title to search for."
@@ -45,22 +46,18 @@ const SearchForm = (props) => {
 
         // fetch & display results
         setstate({
-            ...state,
             helperText: "",
-            searchTerm: `Search results for "${q}"`,
-            results: <Search subject={props.subject} q={q} />
+            searchDetails: `Search results for "${title}"`,
+            results: <Search subject={props.subject} q={title} /> //
         })
-        redirect(`search?q=${q}`)
     }
 
     // store the search term in state whenever it changes
-    const qChange = (event) => {
-        setstate({
-            ...state,
-            q: event.target.value
+    const titleChange = (event) => {
+        setSearchParams({
+            title: event.target.value
         })
     }
-
     return (
         <div>
             <div>
@@ -71,9 +68,9 @@ const SearchForm = (props) => {
                         helperText={state.helperText}
                         label={`${props.subject} title`}
                         name='q'
-                        onChange={qChange}
+                        onChange={titleChange}
                         size='small'
-                        value={state.q}
+                        value={searchParams.get("title")}
                     />
                     <Button 
                         type='submit' 
