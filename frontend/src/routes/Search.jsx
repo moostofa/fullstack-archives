@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Grid, Paper } from '@mui/material/'
 
 import { FIELDS } from '../components/SubjectFields'
 import { SUBJECTS } from '../components/SubjectMethods'
+import Results from '../components/Results'
 
 /*
     Perform a search based on the query paramter(s) passed into the component, or url.
@@ -43,26 +43,7 @@ const Search = props => {
         })
         setstate(results)
     }
-
-    return (
-        <Grid container alignItems="center" justifyContent="center" gap={1}> {
-            state.map((item, index) => (
-                <Paper key={index} elevation={8} sx={{backgroundColor: SUBJECTS[props.subject].color, width: "0.9"}}>
-                    <Grid container>
-                        <Grid item xs={4}>
-                            <img src={item.imgSrc} alt={item.title}/>
-                        </Grid>
-                        <Grid item xs={4}>
-                            {item.title}
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Button variant='contained'>Add to list</Button>
-                        </Grid> 
-                    </Grid>
-                </Paper>
-            ))}
-        </Grid>
-    )
+    return <Results results={state} subject={props.subject} />
 }
 
 export default Search
