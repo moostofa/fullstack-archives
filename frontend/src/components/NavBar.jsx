@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, Outlet } from 'react-router-dom';
 import { Tab, Tabs } from '@mui/material'
+import ProfileMenu from './ProfileMenu';
 
 // return a navbar to navigation between different subjects
 const Navbar = () => {
@@ -21,6 +22,7 @@ const Navbar = () => {
 					to={item}
 				/>
 			))}
+			<ProfileMenu />
 			<Outlet />
 		</Tabs>
 	)

@@ -17,6 +17,7 @@ const App = () => {
 			<Routes>
 				<Route exact path="/" element={<IndexPage />} />
 				<Route path=":subject" element={<Subjects />} />
+				<Route path="accounts/:action" />
 			</Routes>
 		</Router>
 	)
