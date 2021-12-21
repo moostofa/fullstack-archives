@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, Outlet } from 'react-router-dom';
 import { Tab, Tabs } from '@mui/material'
 
+// return a navbar to navigation between different subjects
 const Navbar = () => {
     const [state, setstate] = useState(0)
 	

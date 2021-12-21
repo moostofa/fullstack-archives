@@ -5,6 +5,7 @@ import Actions from './Actions'
 
 
 // props.results = an array of objects (results)
+// display the results of the search
 const Results = props => {
     return (
         <Grid container alignItems="center" justifyContent="center" gap={1}> {

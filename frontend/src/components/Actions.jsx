@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material/'
 import { SUBJECTS } from './SubjectMethods'
 
+// return a select menu which allows users to add an item to their list
 const Actions = props => {
+    const [state, setstate] = useState("")
+    const actionsList = Object.entries(SUBJECTS[props.subject].actions)
+
+    const handleChange = event => {
+        setstate(event.target.value)
+    }
+
     return (
         <Box 
             display="flex" 
@@ -10,11 +18,16 @@ const Actions = props => {
             alignItems="center"
             justifyContent="center"
         >
-            <FormControl sx={{width: 0.5}}>
+            <FormControl sx={{width: 0.7}}>
                 <InputLabel id="action-list">Add to my list</InputLabel>
-                <Select labelId='action-list'> {
-                    SUBJECTS[props.subject].lists.map((list, index) => (
-                        <MenuItem key={index}>{list}</MenuItem>
+                <Select 
+                    labelId='action-list'
+                    value={state}
+                    label="Add to my list"
+                    onChange={handleChange}
+                > {
+                    actionsList.map(([key, value], index) => (
+                        <MenuItem key={index} value={key}>{value}</MenuItem>
                     ))
                 }</Select>
             </FormControl>
