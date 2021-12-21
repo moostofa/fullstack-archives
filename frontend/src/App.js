@@ -8,16 +8,15 @@ import {
 
 import Subjects from "./routes/Subjects";
 import Navbar from './components/NavBar';
+import IndexPage from './routes/IndexPage';
 
 const App = () => {
 	return (
 		<Router>
 			<Navbar />
 			<Routes>
-				<Route exact path="/" element={"Homepage"} />
-				<Route path=":subject" element={<Subjects />}>
-					<Route path="search" element={"Hello search route"} />
-				</Route>
+				<Route exact path="/" element={<IndexPage />} />
+				<Route path=":subject" element={<Subjects />} />
 			</Routes>
 		</Router>
 	)

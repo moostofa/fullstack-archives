@@ -10,7 +10,7 @@ const Results = props => {
     return (
         <Grid container alignItems="center" justifyContent="center" gap={1}> {
             props.results.map((item, index) => (
-                <Paper key={index} elevation={8} sx={{backgroundColor: SUBJECTS[props.subject].color, width: "0.9"}}>
+                <Paper key={index} elevation={8} sx={{backgroundColor: SUBJECTS[props.subject].color, width: 0.9}}>
                     <Grid container>
                         <Grid item xs={2}>
                             <img width={150} src={item.imgSrc} alt={item.title}/>
