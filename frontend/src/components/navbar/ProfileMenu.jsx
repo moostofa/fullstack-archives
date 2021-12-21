@@ -1,10 +1,12 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { IconButton, Menu, MenuItem } from '@mui/material'
 import { AccountCircle } from '@mui/icons-material'
 
 const ProfileMenu = () => {
     const [anchorEl, setAnchorEl] = React.useState(null)
     const open = Boolean(anchorEl)
+    const redirect = useNavigate()
 
     const routes = ["profile", "register", "login", "logout"]
 
@@ -13,8 +15,9 @@ const ProfileMenu = () => {
     }
 
     const handleClose = (event) => {
-        console.log(event.currentTarget.dataset.route)
-        setAnchorEl(null);
+        setAnchorEl(null)
+        const redirectTo = event.currentTarget.dataset.route
+        redirect(`accounts/${redirectTo}`)
     }
 
     return (
