@@ -1,6 +1,6 @@
 import React from 'react'
 import { Grid, Paper } from '@mui/material/'
-import { SUBJECTS } from './SubjectMethods'
+import { SUBJECTS } from '../helpers/SubjectMethods'
 import Actions from './Actions'
 
 

@@ -7,8 +7,9 @@ import {
 } from "react-router-dom"
 
 import Subjects from "./routes/Subjects";
-import Navbar from './components/NavBar';
+import Navbar from './components/navbar/NavBar';
 import IndexPage from './routes/IndexPage';
+import Accounts from './routes/Accounts';
 
 const App = () => {
 	return (
@@ -17,7 +18,7 @@ const App = () => {
 			<Routes>
 				<Route exact path="/" element={<IndexPage />} />
 				<Route path=":subject" element={<Subjects />} />
-				<Route path="accounts/:action" />
+				<Route path="accounts/:action" element={<Accounts />} />
 			</Routes>
 		</Router>
 	)

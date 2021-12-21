@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material/'
-import { SUBJECTS } from './SubjectMethods'
+import { SUBJECTS } from '../helpers/SubjectMethods'
 
 // return a select menu which allows users to add an item to their list
 const Actions = props => {

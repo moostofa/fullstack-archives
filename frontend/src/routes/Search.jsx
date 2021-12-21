@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 
-import { FIELDS } from '../components/SubjectFields'
-import { SUBJECTS } from '../components/SubjectMethods'
-import Results from '../components/Results'
+import { FIELDS } from '../components/helpers/SubjectFields'
+import { SUBJECTS } from '../components/helpers/SubjectMethods'
+import Results from '../components/search/Results'
 
 /*
     Perform a search based on the query paramter(s) passed into the component, or url.

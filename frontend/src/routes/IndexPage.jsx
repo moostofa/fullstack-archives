@@ -1,6 +1,6 @@
 import React from 'react'
 import { Grid, Paper } from '@mui/material/'
-import { SUBJECTS } from '../components/SubjectMethods'
+import { SUBJECTS } from '../components/helpers/SubjectMethods'
 
 const IndexPage = () => {
     const subjects = ["Books", "Anime", "Manga"]

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, Outlet } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Tab, Tabs } from '@mui/material'
 import ProfileMenu from './ProfileMenu';
 
@@ -23,7 +23,6 @@ const Navbar = () => {
 				/>
 			))}
 			<ProfileMenu />
-			<Outlet />
 		</Tabs>
 	)
 }

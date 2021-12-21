@@ -1,20 +1,12 @@
 import React from 'react'
 import { IconButton, Menu, MenuItem } from '@mui/material'
 import { AccountCircle } from '@mui/icons-material'
-import Profile from '../routes/Profile'
-import Register from '../routes/Register'
-import Login from '../routes/Login'
-
-const routes = {
-    Profile: <Profile />,
-    Register: <Register />,
-    Login: <Login />,
-    Logout: ""
-}
 
 const ProfileMenu = () => {
     const [anchorEl, setAnchorEl] = React.useState(null)
     const open = Boolean(anchorEl)
+
+    const routes = ["profile", "register", "login", "logout"]
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -45,8 +37,14 @@ const ProfileMenu = () => {
                 'aria-labelledby': 'basic-button',
                 }}
             >{
-                Object.keys(routes).map(route => (
-                    <MenuItem key={route} data-route={route} onClick={handleClose}>{route}</MenuItem>
+                routes.map(route => (
+                    <MenuItem
+                        key={route} 
+                        data-route={route} 
+                        onClick={handleClose}
+                    >
+                        {route}
+                    </MenuItem>
                 ))
             }</Menu>
         </div>
