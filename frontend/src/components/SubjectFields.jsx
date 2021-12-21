@@ -19,9 +19,9 @@ export const FIELDS = {
         Manga: obj => obj.attributes.title.en
     },
     description: {
-        Books: obj => obj.volumeInfo.description,
-        Anime: obj => obj.descriptions.en,
-        Manga: obj => `${obj.attributes.description.en.split(" ").slice(0, 20).join(" ")}...`
+        Books: obj => trimDescription(obj.volumeInfo.description),
+        Anime: obj => trimDescription(obj.descriptions.en),
+        Manga: obj => trimDescription(obj.attributes.description.en)
     },
     imgSrc: {
         Books: obj => obj.volumeInfo.imageLinks.thumbnail,
@@ -30,8 +30,8 @@ export const FIELDS = {
     },
     genres: {
         Books: obj => obj.volumeInfo.categories[0],
-        Anime: obj => obj.genres.slice(0, 5),
-        Manga: obj => obj.attributes.tags.map(tag => tag.attributes.name.en).slice(0, 5)
+        Anime: obj => obj.genres.slice(0, 5).join(", "),
+        Manga: obj => obj.attributes.tags.map(tag => tag.attributes.name.en).slice(0, 5).join(", ")
     },
     author: {
         Books: obj => obj.volumeInfo.authors[0]
@@ -46,3 +46,5 @@ export const FIELDS = {
         Manga: obj => obj.attributes.status
     }
 }
+
+const trimDescription = description => `${description.split(" ").slice(0, 50).join(" ")}...`

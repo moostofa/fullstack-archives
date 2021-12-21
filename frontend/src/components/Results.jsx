@@ -1,6 +1,7 @@
 import React from 'react'
-import { Box, FormControl, Grid, InputLabel, MenuItem, Select, Paper } from '@mui/material/'
+import { Grid, Paper } from '@mui/material/'
 import { SUBJECTS } from './SubjectMethods'
+import Actions from './Actions'
 
 
 // props.results = an array of objects (results)
@@ -10,28 +11,20 @@ const Results = props => {
             props.results.map((item, index) => (
                 <Paper key={index} elevation={8} sx={{backgroundColor: SUBJECTS[props.subject].color, width: "0.9"}}>
                     <Grid container>
-                        <Grid item xs={4}>
-                            <img src={item.imgSrc} alt={item.title}/>
+                        <Grid item xs={2}>
+                            <img width={150} src={item.imgSrc} alt={item.title}/>
                         </Grid>
-                        <Grid item xs={4}>
-                            {item.title}
+                        <Grid item xs={7}>
+                            <h2>{item.title}</h2>
+                            <p>{item.description}</p>
+                            <b> {
+                                item.pages ? `Number of pages: ${item.pages}` : 
+                                item.episodes ? `Number of episodes: ${item.episodes}` : ""
+                            }</b>
+                            <p>Categories: {item.genres}</p>
                         </Grid>
-                        <Grid item xs={4}>
-                            <Box 
-                                display="flex" 
-                                width={1} height={1} 
-                                alignItems="center"
-                                justifyContent="center"
-                            >
-                                <FormControl sx={{width: 0.5}}>
-                                    <InputLabel id="demo-simple-select-label">Add to my list</InputLabel>
-                                    <Select labelId='demo-simple-select-label'> {
-                                        SUBJECTS[props.subject].lists.map((list, index) => (
-                                            <MenuItem key={index}>{list}</MenuItem>
-                                        ))
-                                    }</Select>
-                                </FormControl>
-                            </Box>
+                        <Grid item xs={3}>
+                            <Actions id={item.id} subject={props.subject} />
                         </Grid> 
                     </Grid>
                 </Paper>
