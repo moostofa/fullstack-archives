@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from "react-router-dom"
 
-import SearchForm from '../components/search/SearchForm'
+import SearchForm from './SearchForm'
 
 /*
     Returns a search form for a book, anime or manga. 

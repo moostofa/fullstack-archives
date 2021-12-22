@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Button, TextField } from '@mui/material'
 import { useSearchParams } from 'react-router-dom'
 
-import Search from '../../routes/Search'
+import Search from '../components/search/Search'
 
 const initialState = {
     helperText: "",
