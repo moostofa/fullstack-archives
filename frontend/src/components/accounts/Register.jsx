@@ -17,9 +17,9 @@ const Register = () => {
     }, [])
 
     const getUsernames = async () => {
-        const response = await fetch("/auth/register")
-        const users = await response.json()
-        setusernames(users)
+        const response = await fetch("/auth/login")
+        const json = await response.json()
+        console.log(json)
     }
 
     // helper texts to give feedback to user if their input is invalid
