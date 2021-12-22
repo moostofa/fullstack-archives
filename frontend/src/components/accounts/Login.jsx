@@ -37,10 +37,25 @@ const Login = () => {
     return (
         <div>
             <h1>Login</h1>
-            <FormControl>
-                <TextField error={state.username[1]} name='username' label="Username" size='small' value={state.username[0]} onChange={handleChange} sx={{my: 1}} helperText={state.username[1] ? helperTexts.username : ""} />
-                <TextField error={state.password1[1]} name='password1' label="Password" size='small' type='password' value={state.password1[0]} onChange={handleChange} sx={{my: 1}} helperText={state.password1[1] ? helperTexts.password1 : ""} />
-                <TextField error={state.password2[1]} name='password2' label="Confirm password" size='small' type='password' value={state.password2[0]} onChange={handleChange} sx={{my: 1}} helperText={state.password2[1] ? helperTexts.password2 : ""} />
+            <FormControl> {
+                Object.keys(state).map(key => (
+                    <TextField 
+                        key={key}
+                        name={key}
+                        value={state[key][0]}
+                        error={state[key][1]}
+                        label={
+                            key === "username" ? "Username"
+                            : key === "password1" ? "Password"
+                            : "Confirm password"
+                        }
+                        type={key[0] === "p" ? "password" : "text"}
+                        size='small'
+                        onChange={handleChange}
+                        sx={{my: 1}}
+                        helperText={state[key][1] ? helperTexts[key] : ""}
+                    />
+                ))}
                 <Button type='submit' variant='contained' onClick={handleLogin}>Login</Button>
             </FormControl>
         </div>
