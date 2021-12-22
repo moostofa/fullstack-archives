@@ -1,17 +1,26 @@
-import React from 'react'
-import './App.css';
-import { Link } from "react-router-dom"
+import React from 'react';
+
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route
+} from "react-router-dom"
+
+import Subjects from "./routes/Subjects";
+import Navbar from './components/navbar/NavBar';
+import IndexPage from './routes/IndexPage';
+import Accounts from './routes/Accounts';
 
 const App = () => {
-	const items = ["Books", "Anime", "Manga"]
 	return (
-		<div> {
-			items.map(item => (
-				<div key={item}>
-					<Link key={item} to={`${item.toLocaleLowerCase()}`}>{item}</Link>
-				</div>
-			))}
-		</div>
+		<Router>
+			<Navbar />
+			<Routes>
+				<Route exact path="/" element={<IndexPage />} />
+				<Route path=":subject" element={<Subjects />} />
+				<Route path="accounts/:action" element={<Accounts />} />
+			</Routes>
+		</Router>
 	)
 }
 

@@ -13,8 +13,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 
-from env.tokens import GOOGLE_BOOKS_API_KEY
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,11 +44,15 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
 
     'rest_framework',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -135,5 +137,4 @@ AUTH_USER_MODEL = "accounts.User"
 
 LOGOUT_REDIRECT_URL = "Login"
 
-# Google books API access token is hidden in local env file. To use your own, visit the Google Books API and sign in for an API key.
-GOOGLE_BOOKS_API_KEY = GOOGLE_BOOKS_API_KEY
+CORS_ALLOW_ALL_ORIGINS = True

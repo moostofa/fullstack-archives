@@ -4,17 +4,21 @@ from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 from .forms import LoginForm, RegistrationForm
 from .models import User
+from .serializers import UsernameSerializer
 
 
 # Register the user
+@api_view(["GET", "POST"])
 def register_view(request):
     if request.method == "GET":
-        return render(request, "accounts/authenticate.html", {
-            "action": "Register",
-            "form": RegistrationForm()
-        })
+        usernames = User.objects.all()
+        serializer = UsernameSerializer(usernames, many=True)
+        return Response(serializer.data)
     else:
         # get form data and validate passwords & username
         credentials = RegistrationForm(request.POST)

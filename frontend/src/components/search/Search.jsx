@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { FIELDS } from '../components/SubjectFields'
-import { SUBJECTS } from '../components/SubjectMethods'
+
+import { FIELDS } from '../helpers/SubjectFields'
+import { SUBJECTS } from '../helpers/SubjectMethods'
+import Results from './Results'
 
 /*
     Perform a search based on the query paramter(s) passed into the component, or url.
@@ -12,21 +14,20 @@ import { SUBJECTS } from '../components/SubjectMethods'
     - props.subject = the book, anime, or manga API being queried
 */
 const Search = props => {
-    const [state, setstate] = useState()
+    const [state, setstate] = useState([{}])
 
     useEffect(() => {
         performSearch()
-    }, [])
+    }, [props.q])
 
     const performSearch = async () => {
         // fetch the data and access the actual array of results from the response
         const response = await fetch(SUBJECTS[props.subject].url(props.q))
         const json = await response.json()
         const data = SUBJECTS[props.subject].getSearchData(json)
-        console.log(data)
 
         const results = []
-        const itemFields = SUBJECTS[props.subject].fields()
+        const itemFields = SUBJECTS[props.subject].fields
 
         // data is the array of results returned by the API
         data.forEach(item => {
@@ -42,10 +43,7 @@ const Search = props => {
         })
         setstate(results)
     }
-
-    return (
-        <div> {JSON.stringify(state)} </div>
-    )
+    return <Results results={state} subject={props.subject} />
 }
 
 export default Search
