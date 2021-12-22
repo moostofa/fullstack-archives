@@ -10,6 +10,18 @@ const Register = () => {
         password2: ["", false]
     })
 
+    const [usernames, setusernames] = useState([])
+
+    useEffect(() => {
+        getUsernames()
+    }, [])
+
+    const getUsernames = async () => {
+        const response = await fetch("/auth/register")
+        const users = await response.json()
+        setusernames(users)
+    }
+
     // helper texts to give feedback to user if their input is invalid
     const helperTexts = {
         username: "Username is already taken.",
@@ -19,9 +31,14 @@ const Register = () => {
 
     // update state whenever a TextField changes
     const handleChange = event => {
+        const fieldName = event.target.name
+        const val = event.target.value
+
+        // if the field changed is the username field, check if user entered a duplicate username
+        const checkUsernameOrPass = (fieldName === "username" && usernames.includes(val)) ? true : false
         setstate({
             ...state,
-            [event.target.name]: [event.target.value, false]
+            [fieldName]: [val, checkUsernameOrPass]
         })
     }
 

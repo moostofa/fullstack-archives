@@ -16,9 +16,9 @@ from .serializers import UsernameSerializer
 @api_view(["GET", "POST"])
 def register_view(request):
     if request.method == "GET":
-        usernames = User.objects.all()
-        serializer = UsernameSerializer(usernames, many=True)
-        return Response(serializer.data)
+        usernames = User.objects.values_list("username", flat=True)
+        #serializer = UsernameSerializer(usernames, many=True)
+        return Response(usernames)
     else:
         # get form data and validate passwords & username
         credentials = RegistrationForm(request.POST)
