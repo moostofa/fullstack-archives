@@ -1,9 +1,22 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 const Login = () => {
+    const [state, setstate] = useState({})
+
+    useEffect(() => {
+        testAPI()
+    }, [])
+
+    const testAPI = async () => {
+        const response = await fetch("/api/books")
+        const json = await response.json()
+        console.log(json)
+        setstate(json)
+    }
+
     return (
         <div>
-            <h1>Hello login form page</h1>
+            {JSON.stringify(state)}
         </div>
     )
 }
