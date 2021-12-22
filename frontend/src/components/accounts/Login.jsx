@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react'
-import { Button, FormControl, TextField, Grid } from '@mui/material'
+import { Button, FormControl, TextField } from '@mui/material'
 
 const Login = () => {
+    // [0] is the value of the controlled TextField component
+    // [1] is a boolean value indicating whether the TextField should display an error text or not
     const [state, setstate] = useState({
         username: ["", false],
         password1: ["", false],
         password2: ["", false]
     })
 
+    // helper texts to give feedback to user if their input is invalid
     const helperTexts = {
         username: "Username is already taken.",
         password1: "Passwords do not match.",
         password2: "Passwords do not match."
     }
 
+    // update state whenever a TextField changes
     const handleChange = event => {
         setstate({
             ...state,
@@ -21,6 +25,7 @@ const Login = () => {
         })
     }
 
+    // login user in (send POST data to backend)
     const handleLogin = () => {
         const password1 = state.password1[0]
         const password2 = state.password2[0]
