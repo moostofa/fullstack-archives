@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth import authenticate, login
 from django.db import IntegrityError
 
@@ -20,20 +22,23 @@ def usernames(request):
 @api_view(["POST"])
 def register_view(request):
     # get form data and validate passwords & username
-    credentials = RegistrationForm(request.POST)
-    if not credentials.is_valid():
-        return Response("Invalid credentials - form is invalid")
+    data = json.loads(request.body)
+    username = data.get("username")
+    password1 = data.get("password1")
+    password2 = data.get("password2")
 
-    username = credentials.cleaned_data["username"]
-    password = credentials.cleaned_data["password"]
-    confirm_password = credentials.cleaned_data["confirm_password"]
+    return Response({
+        "UUUUSARNEM": username,
+        "PAAASWURDWON": password1,
+        "PAASWURD2": password2
+    })
 
-    if password != confirm_password:
+    if password1 != password2:
         return Response("Invalid credentials - passwords do not match.")
     
     # try to create a new user; an IntegrityError is raised if the username is already taken
     try:
-        user = User.objects.create_user(username = username, password = password)
+        user = User.objects.create_user(username = username, password = password1)
         user.save()
     except IntegrityError:
         return Response("IntegrityError: Username is already taken.")

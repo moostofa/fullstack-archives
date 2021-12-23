@@ -10,6 +10,7 @@ const Register = () => {
         password2: ["", false]
     })
 
+    // stores a list of usernames that are already taken
     const [usernames, setusernames] = useState([])
 
     useEffect(() => {
@@ -17,9 +18,9 @@ const Register = () => {
     }, [])
 
     const getUsernames = async () => {
-        const response = await fetch("/auth/login")
-        const json = await response.json()
-        console.log(json)
+        const response = await fetch("/auth/usernames")
+        const users = await response.json()
+        setusernames(users)
     }
 
     // helper texts to give feedback to user if their input is invalid
@@ -35,6 +36,7 @@ const Register = () => {
         const val = event.target.value
 
         // if the field changed is the username field, check if user entered a duplicate username
+        // if the username is a duplicate, the username TextField will display an error
         const checkUsernameOrPass = (fieldName === "username" && usernames.includes(val)) ? true : false
         setstate({
             ...state,
@@ -43,7 +45,11 @@ const Register = () => {
     }
 
     // register user (send POST data to backend)
-    const handleRegistration = () => {
+    const handleRegistration = async () => {
+        // prevent submit if username is invalid
+        if (state.username[1]) return
+
+        // validate password match
         const password1 = state.password1[0]
         const password2 = state.password2[0]
         if (password1 !== password2) {
@@ -54,6 +60,22 @@ const Register = () => {
             })
             return
         }
+
+        // register the user by sending POST data to api
+        const response = await fetch("/auth/register", {
+            method: "POST",
+            body: JSON.stringify({
+                username: state.username[0],
+                password1,
+                password2
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+        })
+        const result = await response.json()
+        console.log(result)
     }
 
     return (
