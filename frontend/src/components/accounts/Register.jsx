@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, FormControl, TextField } from '@mui/material'
+import Cookies from 'js-cookie'
 
 const Register = () => {
     // [0] is the value of the controlled TextField component
     // [1] is a boolean value indicating whether the TextField should display an error text or not
-    const [state, setstate] = useState({
+    const [credentials, setcredentials] = useState({
         username: ["", false],
         password1: ["", false],
         password2: ["", false]
     })
 
     // stores a list of usernames that are already taken
-    const [usernames, setusernames] = useState([])
+    const [usernames, setUsernames] = useState([])
 
     useEffect(() => {
         getUsernames()
@@ -20,7 +21,7 @@ const Register = () => {
     const getUsernames = async () => {
         const response = await fetch("/auth/usernames")
         const users = await response.json()
-        setusernames(users)
+        setUsernames(users)
     }
 
     // helper texts to give feedback to user if their input is invalid
@@ -30,7 +31,7 @@ const Register = () => {
         password2: "Passwords do not match."
     }
 
-    // update state whenever a TextField changes
+    // update credentials whenever a TextField changes
     const handleChange = event => {
         const fieldName = event.target.name
         const val = event.target.value
@@ -38,8 +39,8 @@ const Register = () => {
         // if the field changed is the username field, check if user entered a duplicate username
         // if the username is a duplicate, the username TextField will display an error
         const checkUsernameOrPass = (fieldName === "username" && usernames.includes(val)) ? true : false
-        setstate({
-            ...state,
+        setcredentials({
+            ...credentials,
             [fieldName]: [val, checkUsernameOrPass]
         })
     }
@@ -47,14 +48,14 @@ const Register = () => {
     // register user (send POST data to backend)
     const handleRegistration = async () => {
         // prevent submit if username is invalid
-        if (state.username[1]) return
+        if (credentials.username[1]) return
 
         // validate password match
-        const password1 = state.password1[0]
-        const password2 = state.password2[0]
+        const password1 = credentials.password1[0]
+        const password2 = credentials.password2[0]
         if (password1 !== password2) {
-            setstate({
-                ...state,
+            setcredentials({
+                ...credentials,
                 password1: [password1, true],
                 password2: [password2, true]
             })
@@ -65,13 +66,14 @@ const Register = () => {
         const response = await fetch("/auth/register", {
             method: "POST",
             body: JSON.stringify({
-                username: state.username[0],
+                username: credentials.username[0],
                 password1,
                 password2
             }),
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRFToken': Cookies.get("csrftoken")
               },
         })
         const result = await response.json()
@@ -82,12 +84,12 @@ const Register = () => {
         <div>
             <h1>Register</h1>
             <FormControl> {
-                Object.keys(state).map(key => (
+                Object.keys(credentials).map(key => (
                     <TextField 
                         key={key}
                         name={key}
-                        value={state[key][0]}
-                        error={state[key][1]}
+                        value={credentials[key][0]}
+                        error={credentials[key][1]}
                         label={
                             key === "username" ? "Username"
                             : key === "password1" ? "Password"
@@ -97,7 +99,7 @@ const Register = () => {
                         size='small'
                         onChange={handleChange}
                         sx={{my: 1}}
-                        helperText={state[key][1] ? helperTexts[key] : ""}
+                        helperText={credentials[key][1] ? helperTexts[key] : ""}
                     />
                 ))}
                 <Button type='submit' variant='contained' onClick={handleRegistration}>Register</Button>
