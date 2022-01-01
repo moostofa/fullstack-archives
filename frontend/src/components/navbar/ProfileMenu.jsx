@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IconButton, Menu, MenuItem } from '@mui/material'
 import { AccountCircle } from '@mui/icons-material'
@@ -7,22 +7,10 @@ const ProfileMenu = () => {
     // the anchor element is the element where the menu options will appear from, when the anchor element is clicked
     // open indicates whether the menu is currently being shown or not
     const [anchorEl, setAnchorEl] = useState(null)
-    const [authToken, setauthToken] = useState(localStorage.getItem("token"))
-    const [isAuthenticated, setisAuthenticated] = useState(authToken !== null)
     const open = Boolean(anchorEl)
     const redirect = useNavigate()
 
-    const profileMenuOptions = [
-        ["Register", "Login"],
-        ["Profile", "Login", "Logout"]
-    ]
-
-    // update profile menu options whenever an auth token appears in localStorage (a user has logged in)
-    useEffect(() => {
-        const token = localStorage.getItem("token")
-        setauthToken(token)
-        if (token !== null) setisAuthenticated(true)
-    }, [])
+    const profileMenuOptions = ["Profile", "Register", "Login", "Logout"]
     
     // display the menu when the profile icon is clicked
     const handleClick = (event) => {
@@ -56,7 +44,7 @@ const ProfileMenu = () => {
                 'aria-labelledby': 'basic-button',
                 }}
             >{
-                profileMenuOptions[isAuthenticated ? 1 : 0].map(route => (
+                profileMenuOptions.map(route => (
                     <MenuItem
                         key={route} 
                         data-route={route} 
