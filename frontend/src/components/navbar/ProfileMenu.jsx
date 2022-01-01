@@ -1,23 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IconButton, Menu, MenuItem } from '@mui/material'
 import { AccountCircle } from '@mui/icons-material'
 
 const ProfileMenu = () => {
-    const [anchorEl, setAnchorEl] = React.useState(null)
+    // the anchor element is the element where the menu options will appear from, when the anchor element is clicked
+    // open indicates whether the menu is currently being shown or not
+    const [anchorEl, setAnchorEl] = useState(null)
     const open = Boolean(anchorEl)
     const redirect = useNavigate()
 
-    const routes = ["profile", "register", "login", "logout"]
-
+    const profileMenuOptions = ["Profile", "Register", "Login", "Logout"]
+    
+    // display the menu when the profile icon is clicked
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     }
 
+    // when the menu is closed, either redirect to the MenuItem chosen, or do nothing if something else is clicked.
     const handleClose = (event) => {
         setAnchorEl(null)
         const redirectTo = event.currentTarget.dataset.route
-        redirect(`accounts/${redirectTo}`)
+        if (redirectTo !== undefined) redirect(`accounts/${redirectTo.toLowerCase()}`)
     }
 
     return (
@@ -40,7 +44,7 @@ const ProfileMenu = () => {
                 'aria-labelledby': 'basic-button',
                 }}
             >{
-                routes.map(route => (
+                profileMenuOptions.map(route => (
                     <MenuItem
                         key={route} 
                         data-route={route} 

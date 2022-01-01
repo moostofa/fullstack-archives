@@ -1,68 +1,33 @@
-from django.contrib.auth import authenticate, login
-from django.db import IntegrityError
-from django.http.response import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
-from django.urls import reverse
-
-from rest_framework.decorators import api_view
+from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from .forms import LoginForm, RegistrationForm
 from .models import User
-from .serializers import UsernameSerializer
+from .serializers import RegistrationSerializer
 
 
-# Register the user
-@api_view(["GET", "POST"])
-def register_view(request):
-    if request.method == "GET":
-        usernames = User.objects.all()
-        serializer = UsernameSerializer(usernames, many=True)
-        return Response(serializer.data)
-    else:
-        # get form data and validate passwords & username
-        credentials = RegistrationForm(request.POST)
-        if not credentials.is_valid():
-            return HttpResponse("Error in register view: Invalid credentials - form is invalid")
-
-        username = credentials.cleaned_data["username"]
-        password = credentials.cleaned_data["password"]
-        confirm_password = credentials.cleaned_data["confirm_password"]
-
-        if password != confirm_password:
-            return HttpResponse("Error in register view: Invalid credentials - passwords do not match.")
-        
-        # try to create a new user; an IntegrityError is raised if the username is already taken
-        try:
-            user = User.objects.create_user(username = username, password = password)
-            user.save()
-        except IntegrityError:
-            return HttpResponse("IntegrityError in register view: Username is already taken.")
-
-        login(request, user)
-        return HttpResponseRedirect(reverse("index"))
+# Return a list of usernames.
+# This endpoint is called in the frontend registration form to guard against duplicate usernames on client-side.
+class UsernameListView(APIView):
+    def get(self, request):
+        usernames = User.objects.values_list("username", flat=True)
+        return Response(usernames)
 
 
-# Log the user in
-def login_view(request):
-    if request.method == "GET":
-        return render(request, "accounts/authenticate.html", {
-            "action": "Login",
-            "form": LoginForm()
-        })
-    else:
-        # validate the users credentials
-        credentials = LoginForm(request.POST)
-        if not credentials.is_valid():
-            return HttpResponse("Error in login view: Invalid credentials - form is invalid")
-        
-        user = authenticate(
-            request, 
-            username = credentials.cleaned_data["username"], 
-            password = credentials.cleaned_data["password"]
-        )
-        if not user:
-            return HttpResponse("Error in login view: Invalid credentials - username and/or password are incorrect.")
-
-        login(request, user)
-        return HttpResponseRedirect(reverse("index"))
+# Register the user and return an auth token to identify them.
+# The token will be saved in localStorage in the frontend to identify a user.
+class RegisterView(APIView):
+    def post(self, request):
+        serializer = RegistrationSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response({
+                "success": True,
+                "message": "Successfully registered the user.",
+                "token": Token.objects.get(user=user).key
+            })
+        else:
+            return Response({
+                "success": False,
+                **serializer.errors
+            })
