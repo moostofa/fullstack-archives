@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import { Button, FormControl, TextField } from '@mui/material'
+import { Button, FormControl, FormHelperText, TextField } from '@mui/material'
 
 const Login = () => {
     const [state, setstate] = useState({
         username: "",
         password: "",
     })
+
+    const [helperText, setHelperText] = useState("")
 
     // update state whenever a TextField changes
     const handleChange = event => {
@@ -25,7 +27,8 @@ const Login = () => {
     return (
         <div>
             <h1>Login</h1>
-            <FormControl> {
+            <FormControl> 
+            <FormHelperText>{helperText}</FormHelperText> {
                 Object.keys(state).map(key => (
                     <TextField 
                         key={key}

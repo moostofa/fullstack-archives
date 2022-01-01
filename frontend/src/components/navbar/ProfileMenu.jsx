@@ -4,12 +4,14 @@ import { IconButton, Menu, MenuItem } from '@mui/material'
 import { AccountCircle } from '@mui/icons-material'
 
 const ProfileMenu = () => {
+    // the anchor element is the element where the menu options will appear from, when the anchor element is clicked
+    // open indicates whether the menu is currently being shown or not
     const [anchorEl, setAnchorEl] = React.useState(null)
     const open = Boolean(anchorEl)
     const redirect = useNavigate()
 
     const routes = ["profile", "register", "login", "logout"]
-
+    
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     }
