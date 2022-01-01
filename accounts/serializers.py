@@ -1,13 +1,12 @@
-from django.db import IntegrityError
-from rest_framework.serializers import ModelSerializer, CharField, ValidationError
+from rest_framework.serializers import (CharField, ModelSerializer,
+                                        ValidationError)
 
 from .models import User
 
-class UsernameSerializer(ModelSerializer):
+class LoginSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ["username"]
-
+        fields = ["username", "password"]
 
 class RegistrationSerializer(ModelSerializer):
     password_confirm = CharField()
@@ -27,8 +26,3 @@ class RegistrationSerializer(ModelSerializer):
         user = User.objects.create_user(username = username, password = password)
         user.save()
         return user
-    
-class LoginSerializer(ModelSerializer):
-    class Meta:
-        model = User
-        fields = ["username", "password"]
