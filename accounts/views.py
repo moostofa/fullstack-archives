@@ -3,6 +3,7 @@ import json
 from django.contrib.auth import authenticate, login
 from django.db import IntegrityError
 
+from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -26,9 +27,9 @@ class RegisterView(APIView):
         if serializer.is_valid():
             user = serializer.save()
             return Response({
-                "user": user.username,
                 "success": True,
-                "message": "Successfully registered the user."
+                "message": "Successfully registered the user.",
+                "token": Token.objects.get(user=user).key
             })
         else:
             return Response({
@@ -43,6 +44,7 @@ class LoginView(APIView):
         if not serializer.is_valid():
             return Response("POST data sent to /login does not match LoginSerializer fields.")
         return Response(serializer.data)
+
 
 # Register the user
 @api_view(["POST"])
