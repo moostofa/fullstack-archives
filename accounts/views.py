@@ -9,6 +9,7 @@ from rest_framework.views import APIView
 
 from .forms import LoginForm, RegistrationForm
 from .models import User
+from .serializers import LoginSerializer, RegistrationSerializer
 
 
 # Return a list of usernames. 
@@ -20,13 +21,19 @@ class UsernameList(APIView):
 
 
 class RegisterView(APIView):
-    def get(self, request):
-        return Response("Hello postman from RegisterView")
+    def post(self, request):
+        serializer = RegistrationSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response("POST data sent to /register does not match RegistrationSerializer fields.")
+        return Response(serializer.data)
 
 
 class LoginView(APIView):
-    def get(self, request):
-        return Response("Hello postman from LoginView")
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response("POST data sent to /login does not match LoginSerializer fields.")
+        return Response(serializer.data)
 
 # Register the user
 @api_view(["POST"])
