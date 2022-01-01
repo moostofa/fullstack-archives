@@ -15,7 +15,7 @@ from .serializers import LoginSerializer, RegistrationSerializer
 
 # Return a list of usernames. 
 # This endpoint is called in the frontend registration form to guard against duplicate usernames on client-side.
-class UsernameList(APIView):
+class UsernameListView(APIView):
     def get(self, request):
         usernames = User.objects.values_list("username", flat=True)
         return Response(usernames)
