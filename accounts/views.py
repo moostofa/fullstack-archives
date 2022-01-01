@@ -5,6 +5,7 @@ from django.db import IntegrityError
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .forms import LoginForm, RegistrationForm
 from .models import User
@@ -12,11 +13,20 @@ from .models import User
 
 # Return a list of usernames. 
 # This endpoint is called in the frontend registration form to guard against duplicate usernames on client-side.
-@api_view(["GET"])
-def usernames(request):
-    usernames = User.objects.values_list("username", flat=True)
-    return Response(usernames) 
+class UsernameList(APIView):
+    def get(self, request):
+        usernames = User.objects.values_list("password", flat=True)
+        return Response(usernames)
 
+
+class RegisterView(APIView):
+    def get(self, request):
+        return Response("Hello postman from RegisterView")
+
+
+class LoginView(APIView):
+    def get(self, request):
+        return Response("Hello postman from LoginView")
 
 # Register the user
 @api_view(["POST"])
