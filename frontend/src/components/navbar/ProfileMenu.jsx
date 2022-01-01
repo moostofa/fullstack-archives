@@ -12,14 +12,16 @@ const ProfileMenu = () => {
 
     const routes = ["profile", "register", "login", "logout"]
     
+    // display the menu when the profile icon is clicked
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     }
 
+    // when the menu is closed, either redirect to the MenuItem chosen, or do nothing if something else is clicked.
     const handleClose = (event) => {
         setAnchorEl(null)
         const redirectTo = event.currentTarget.dataset.route
-        redirect(`accounts/${redirectTo}`)
+        if (redirectTo !== undefined) redirect(`accounts/${redirectTo}`)
     }
 
     return (

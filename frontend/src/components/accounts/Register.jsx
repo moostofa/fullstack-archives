@@ -21,7 +21,6 @@ const Register = () => {
 
     // stores a list of usernames that are already taken
     const [usernames, setUsernames] = useState([])
-    
     const redirect = useNavigate()
 
     // when components mounts, load and save all current usernames in state
@@ -77,7 +76,7 @@ const Register = () => {
             return
         }
 
-        // register the user by sending POST data to api
+        // register the user by sending POST data to backend & retrieve auth token
         const response = await fetch("/auth/register", {
             method: "POST",
             body: JSON.stringify({
@@ -88,7 +87,7 @@ const Register = () => {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-              },
+            }
         })
         const result = await response.json()
 

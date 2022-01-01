@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material/'
 import { SUBJECTS } from '../helpers/SubjectMethods'
 
-// return a select menu which allows users to add an item to their list
+// return a select menu which allows users to add an item to their various lists
 const Actions = props => {
     const [state, setstate] = useState("")
     const actionsList = Object.entries(SUBJECTS[props.subject].actions)
 
+    // later change this to indicate that an item has been added to the user's list
     const handleChange = event => {
         setstate(event.target.value)
     }

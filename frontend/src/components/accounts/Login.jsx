@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Button, FormControl, FormHelperText, TextField } from '@mui/material'
 
 const Login = () => {
@@ -7,7 +8,9 @@ const Login = () => {
         password: "",
     })
 
+    // helperText to display if username and/or password are invalid
     const [helperText, setHelperText] = useState("")
+    const redirect = useNavigate()
 
     // update state whenever a TextField changes
     const handleChange = event => {
@@ -18,17 +21,40 @@ const Login = () => {
     }
 
     // login user in (send POST data to backend)
-    const handleLogin = () => {
+    const handleLogin = async () => {
         const username = state.username
         const password = state.password
-        console.log(`TODO`)
+        
+        // POST data to retrieve auth token
+        const response = await fetch("/auth/login", {
+            method: "post",
+            body: JSON.stringify({
+                username,
+                password
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+        })
+        const result = await response.json()
+        
+        // get and set auth token in localStorage & redirect user if successful
+        const token = result.token
+        if (token === undefined) {
+            setHelperText("Invalid credentials. Username and/or password are incorrect.")
+            return
+        }
+        localStorage.removeItem("token")
+        localStorage.setItem("token", token)
+        redirect("/")
     }
 
     return (
         <div>
             <h1>Login</h1>
-            <FormControl> 
-            <FormHelperText>{helperText}</FormHelperText> {
+            <FormControl sx={{maxWidth: 200}}> 
+            <FormHelperText> {helperText} </FormHelperText> {
                 Object.keys(state).map(key => (
                     <TextField 
                         key={key}
