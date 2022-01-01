@@ -16,16 +16,25 @@ from .serializers import LoginSerializer, RegistrationSerializer
 # This endpoint is called in the frontend registration form to guard against duplicate usernames on client-side.
 class UsernameList(APIView):
     def get(self, request):
-        usernames = User.objects.values_list("password", flat=True)
+        usernames = User.objects.values_list("username", flat=True)
         return Response(usernames)
 
 
 class RegisterView(APIView):
     def post(self, request):
         serializer = RegistrationSerializer(data=request.data)
-        if not serializer.is_valid():
-            return Response("POST data sent to /register does not match RegistrationSerializer fields.")
-        return Response(serializer.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response({
+                "user": user.username,
+                "success": True,
+                "message": "Successfully registered the user."
+            })
+        else:
+            return Response({
+                "success": False,
+                **serializer.errors
+            })
 
 
 class LoginView(APIView):
