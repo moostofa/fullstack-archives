@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
-import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material/'
+import { Link } from 'react-router-dom'
+import { Box, Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material/'
 import { SUBJECTS } from '../helpers/SubjectMethods'
 
 // return a select menu which allows users to add an item to their various lists
 const Actions = props => {
-    const [state, setstate] = useState("")
+    const [selectedList, setselectedList] = useState("")
+    const isAuthenticated = localStorage.getItem("token") !== null
     const actionsList = Object.entries(SUBJECTS[props.subject].actions)
 
     // later change this to indicate that an item has been added to the user's list
     const handleChange = event => {
-        setstate(event.target.value)
+        setselectedList(event.target.value)
     }
 
     return (
@@ -23,7 +25,7 @@ const Actions = props => {
                 <InputLabel id="action-list">Add to my list</InputLabel>
                 <Select 
                     labelId='action-list'
-                    value={state}
+                    value={selectedList}
                     label="Add to my list"
                     onChange={handleChange}
                 > {
@@ -31,6 +33,12 @@ const Actions = props => {
                         <MenuItem key={index} value={key}>{value}</MenuItem>
                     ))
                 }</Select>
+                <Button
+                    sx={{mx: "auto", my: 1}} 
+                    variant='contained'
+                >
+                    { isAuthenticated ? "Add" : "Login to add" }
+                </Button>
             </FormControl>
         </Box>
     )
