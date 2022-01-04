@@ -3,7 +3,7 @@ from rest_framework.decorators import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .models import Anime, Book, Manga
+from .models import UsersList
 from .seralizers import ItemListSerializer
 
 
@@ -14,11 +14,9 @@ class AllItems(APIView):
 
     def get(self, request):
         user = request.user
-        anime = Anime.objects.get(user=user)
-        books = Book.objects.get(user=user)
-        manga = Manga.objects.get(user=user)
-        users_list = anime | books | manga
-        return Response(users_list)
+        users_list = UsersList.objects.get(user = user)
+        serializer = ItemListSerializer(users_list)
+        return Response(serializer.data)
 
 
 # Add an item to a user's list
