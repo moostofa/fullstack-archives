@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .models import UsersList
-from .seralizers import ItemListSerializer
+from .seralizers import ItemListSerializer, ActionSerializer
 
 
 # Return a list of all of the user's items.
@@ -26,7 +26,8 @@ class Add(APIView):
 
     def post(self, request):
         user = request.user
-        return Response("Add an item to the user's list.")
+        serializer = ActionSerializer(request.data)
+        return Response(serializer.data)
 
 
 # Delete an item from a user's list
