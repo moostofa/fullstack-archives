@@ -1,31 +1,40 @@
-from django.shortcuts import render
-from django.http.response import HttpResponse
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.decorators import APIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
 
-from .models import Book, Anime, Manga
+from .models import Anime, Book, Manga
 from .seralizers import ItemListSerializer
 
-def index(request):
-    return HttpResponse("index")
+
+# Return a list of all of the user's items.
+class AllItems(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response("Return a user's entire profile.")
 
 
-@api_view(["GET"])
-def books(request):
-    books = Book.objects.all()
-    serializer = ItemListSerializer(books, many=True)
-    return Response(serializer.data)
+class Add(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        return Response("Add an item to the user's list.")
 
 
-@api_view(["GET"])
-def anime(request):
-    anime = Anime.objects.all()
-    serializer = ItemListSerializer(anime, many=True)
-    return Response(serializer.data)
+class Delete(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        return Response("Delete an item from the user's list.")
 
 
-@api_view(["GET"])
-def manga(request):
-    manga = Manga.objects.all()
-    serializer = ItemListSerializer(manga, many=True)
-    return Response(serializer.data)
+class Update(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        return Response("Update an item in the user's list.")
