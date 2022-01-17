@@ -40,9 +40,16 @@ class Action(APIView):
                 "success": False,
                 "message": f"Invalid subject; {subject} is not a valid parameter."
             })
-
-        return Response({
-            "action": f"Perform {action} operation on {subject} list.",
-            "user": str(request.user),
-            **ActionSerializer(request.data).data
-        })
+        
+        serializer = ActionSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save(user=request.user)
+            return Response({
+                "success": True,
+                "new updated users list": getattr(user, subject)
+            })
+        else:
+            return Response({
+                "success": False,
+                **serializer.errors
+            })
