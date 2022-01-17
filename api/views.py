@@ -25,13 +25,24 @@ class Action(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        user = request.user
-        serializer = ActionSerializer(request.data)
+
+        # validate action and subject parameters
+        action: str = kwargs.get("action")
+        if action not in ["add", "delete", "update"]:
+            return Response({
+                "success": False,
+                "message": f"Invalid action; {action} cannot be performed."
+            })
+        
+        subject: str = kwargs.get("subject").lower()
+        if subject not in ["books", "anime", "manga"]:
+            return Response({
+                "success": False,
+                "message": f"Invalid subject; {subject} is not a valid parameter."
+            })
+
         return Response({
-            "kwargs": {
-                "action to perform": kwargs.get("action"),
-                "subject": kwargs.get("subject")
-            },
-            "user": str(user),
-            **serializer.data
+            "action": f"Perform {action} operation on {subject} list.",
+            "user": str(request.user),
+            **ActionSerializer(request.data).data
         })
