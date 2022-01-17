@@ -3,38 +3,53 @@ from rest_framework.decorators import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .models import Anime, Book, Manga
-from .seralizers import ItemListSerializer
+from .models import UsersList
+from .seralizers import ItemListSerializer, ActionSerializer
 
 
-# Return a list of all of the user's items.
+""" Return a list of all of the user's items """
 class AllItems(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        return Response("Return a user's entire profile.")
+        user = request.user
+        users_list = UsersList.objects.get(user=user)
+        serializer = ItemListSerializer(users_list)
+        return Response(serializer.data)
 
 
-class Add(APIView):
+""" Perform CRUD oeprations on any of the user's lists """
+class Action(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
-        return Response("Add an item to the user's list.")
+    def post(self, request, *args, **kwargs):
 
-
-class Delete(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request):
-        return Response("Delete an item from the user's list.")
-
-
-class Update(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-    
-    def post(self, request):
-        return Response("Update an item in the user's list.")
+        # validate action and subject parameters
+        action: str = kwargs.get("action")
+        if action not in ["add", "delete", "update"]:
+            return Response({
+                "success": False,
+                "message": f"Invalid action; {action} cannot be performed."
+            })
+        
+        subject: str = kwargs.get("subject").lower()
+        if subject not in ["books", "anime", "manga"]:
+            return Response({
+                "success": False,
+                "message": f"Invalid subject; {subject} is not a valid parameter."
+            })
+        
+        serializer = ActionSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save(user=request.user)
+            return Response({
+                "success": True,
+                "new updated users list": getattr(user, subject)
+            })
+        else:
+            return Response({
+                "success": False,
+                **serializer.errors
+            })
