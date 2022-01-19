@@ -35,4 +35,3 @@ class ActionSerializer(Serializer):
         # update the instance in DB
         setattr(user, subject, users_list)
         user.save(update_fields=[subject])
-        return user

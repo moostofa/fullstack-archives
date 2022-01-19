@@ -14,8 +14,28 @@ const Actions = props => {
         setselectedList(event.target.value)
     }
 
-    const performAction = () => {
-        ""
+    const performAction = async () => {
+        if (!isAuthenticated) {
+            window.location.replace("/accounts/login")
+            return
+        }
+        const response = await fetch("/api/add", {
+            method: "post",
+            body: JSON.stringify({
+                item_id: props.id,
+                subject: props.subject,
+                field_add: selectedList
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${localStorage.getItem("token")}`
+            }
+        })
+
+        const json = await response.json()
+
+        if (json.success) alert(json.message)
     }
 
     return (

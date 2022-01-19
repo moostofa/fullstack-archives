@@ -43,10 +43,10 @@ class Action(APIView):
         
         serializer = ActionSerializer(data=request.data)
         if serializer.is_valid():
-            user = serializer.save(user=request.user)
+            serializer.save(user=request.user)
             return Response({
                 "success": True,
-                "new updated users list": getattr(user, subject)
+                "message": "Successfully added item to user's list."
             })
         else:
             return Response({
