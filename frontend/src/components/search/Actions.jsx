@@ -14,6 +14,10 @@ const Actions = props => {
         setselectedList(event.target.value)
     }
 
+    const performAction = () => {
+        ""
+    }
+
     return (
         <Box 
             display="flex" 
@@ -33,12 +37,17 @@ const Actions = props => {
                         <MenuItem key={index} value={key}>{value}</MenuItem>
                     ))
                 }</Select>
-                <Button
-                    sx={{mx: "auto", my: 1}} 
-                    variant='contained'
-                >
-                    { isAuthenticated ? "Add" : "Login to add" }
-                </Button>
+                {
+                    selectedList !== "" 
+                    &&
+                    <Button
+                        sx={{mx: "auto", my: 1}} 
+                        variant='contained'
+                        onClick={performAction}
+                    >
+                        { isAuthenticated ? "Add" : "Login to add" }
+                    </Button>
+                }
             </FormControl>
         </Box>
     )
