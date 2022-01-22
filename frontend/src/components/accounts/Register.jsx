@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Button, FormControl, FormHelperText, TextField } from '@mui/material'
 
 const Register = () => {
@@ -21,7 +20,6 @@ const Register = () => {
 
     // stores a list of usernames that are already taken
     const [usernames, setUsernames] = useState([])
-    const redirect = useNavigate()
 
     // when components mounts, load and save all current usernames in state
     useEffect(() => {
@@ -92,12 +90,13 @@ const Register = () => {
         const result = await response.json()
 
         // temporary error catch
-        if (!result.success) return alert("Registration failed - Response returned 'success': False. An error was unaccounted for on client-side.")
+        if (!result.success) 
+            return alert("Registration failed - Response returned 'success': False. An error was unaccounted for on client-side.")
 
         // save user's auth token & redirect to index page
         localStorage.removeItem("token")
         localStorage.setItem("token", result.token)
-        redirect("/")
+        window.location.replace("/")
     }
 
     return (

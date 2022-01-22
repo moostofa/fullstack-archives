@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Button, FormControl, FormHelperText, TextField } from '@mui/material'
 
 const Login = () => {
@@ -10,7 +9,6 @@ const Login = () => {
 
     // helperText to display if username and/or password are invalid
     const [helperText, setHelperText] = useState("")
-    const redirect = useNavigate()
 
     // update state whenever a TextField changes
     const handleChange = event => {
@@ -47,7 +45,7 @@ const Login = () => {
         }
         localStorage.removeItem("token")
         localStorage.setItem("token", token)
-        redirect("/")
+        window.location.replace("/")
     }
 
     return (
